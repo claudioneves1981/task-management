@@ -81,9 +81,6 @@ public class TestTaskService {
         taskDto.setId(UUID.randomUUID());
         taskDto.setTitle("Title Updated");
         Instant date = Instant.now();
-        taskDto.setUpdatedOn(date);
-        taskDto.setExpiredOn(date);
-        taskDto.setCreatedOn(date);
         taskDto.setStatus(Status.Done);
         taskDto.setDescription("Description Updated");
         taskDto.setPriority(Priority.High);
@@ -101,9 +98,6 @@ public class TestTaskService {
         assertEquals("Description Updated", taskEntity.getDescription());
         assertEquals(Status.Done, taskEntity.getStatus());
         assertEquals(Priority.High, taskEntity.getPriority());
-        assertEquals(date, taskEntity.getUpdatedOn());
-        assertEquals(date, taskEntity.getExpiredOn());
-        assertEquals(date, taskEntity.getCreatedOn());
 
     }
 

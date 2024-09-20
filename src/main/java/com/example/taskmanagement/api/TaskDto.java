@@ -16,12 +16,12 @@ public class TaskDto {
     @NotEmpty(message = "title should not be null")
     private String title;
 
-    private Instant createdOn;
+    private String createdOn;
 
-    private Instant updatedOn;
+    private String updatedOn;
 
     @NotEmpty(message = "Expire date cannot empty, please inform!")
-    private Instant expiredOn;
+    private String expireOn;
 
     private Priority priority;
 
@@ -29,5 +29,10 @@ public class TaskDto {
 
     @NotEmpty(message = "Description is mandatory")
     private String description;
+
+    private String statusClass;
+    private String priorityClass;
+
+
 
 }

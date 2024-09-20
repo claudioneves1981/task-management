@@ -44,5 +44,16 @@ public class TaskEntity {
 
     @Column(name = "description", columnDefinition = "TEXT", length=300)
     private String description;
+
+    @PrePersist
+    protected void onCreate(){
+        this.createdOn = Instant.now();
+        this.updatedOn = Instant.now();
+    }
+
+    @PreUpdate
+    protected void onUpdate(){
+        this.updatedOn = Instant.now();
+    }
     
 }
