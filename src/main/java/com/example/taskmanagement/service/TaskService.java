@@ -1,12 +1,19 @@
 package com.example.taskmanagement.service;
 
+import com.example.taskmanagement.api.Priority;
+import com.example.taskmanagement.api.Status;
 import com.example.taskmanagement.api.TaskDto;
 import com.example.taskmanagement.db.entity.TaskEntity;
 import com.example.taskmanagement.db.repository.TaskRepository;
 import com.example.taskmanagement.exceptions.TaskNotFoundException;
 import com.example.taskmanagement.convert.TaskConvert;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -70,11 +77,9 @@ public class TaskService {
                 TaskEntity taskEntity = optionalTaskEntity.get();
                 taskEntity.setDescription(taskDto.getDescription());
                 taskEntity.setTitle(taskDto.getTitle());
-                taskEntity.setUpdatedOn(taskDto.getUpdatedOn());
-                taskEntity.setExpiredOn(taskDto.getExpiredOn());
+                taskEntity.setExpiredOn(taskConvert.convertStringToInstant(taskDto.getExpireOn()));
                 taskEntity.setStatus(taskDto.getStatus());
                 taskEntity.setPriority(taskDto.getPriority());
-                taskEntity.setCreatedOn(taskDto.getCreatedOn());
                 taskRepository.save(taskEntity);
             } else {
                 throw new TaskNotFoundException("Task with id " + taskDto.getId() + " not found");
@@ -90,6 +95,55 @@ public class TaskService {
                 .stream()
                 .map(taskConvert::convertTaskEntityToTaskDto)
                 .collect(Collectors.toList());
+    }
+
+    public List<String> getPriorities(){
+        return Arrays.asList(Priority.Low.toString(),Priority.High.toString(), Priority.Normal.toString());
+    }
+
+    public List<String> getStatus(){
+        return Arrays.asList(Status.Done.toString(),Status.Ready.toString(), Status.Progress.toString());
+    }
+
+    public List<TaskDto> getTaskListByStatus(String strStatus){
+        Status status = taskConvert.convertStatus(strStatus);
+        if(status == null){
+                return getTaskList();
+        }
+
+        List<TaskEntity> taskEntityList = taskRepository.findAllByStatusOrderByCreatedOnDesc(status);
+        return taskEntityList.stream()
+                .map(taskConvert::convertTaskEntityToTaskDto)
+                .collect(Collectors.toList());
+    }
+
+    public Page<TaskDto> getTaskListPaginated(int pageNo, int pageSize, String status){
+
+        List<TaskDto> taskDtoList;
+        Page<TaskDto> page;
+
+        if(status == null || status.isEmpty() || status.equals("all")){
+            taskDtoList = getTaskList();
+        }else{
+            taskDtoList = getTaskListByStatus(status);
+            pageNo = 1;
+        }
+
+
+        if(!taskDtoList.isEmpty()){
+            if(taskDtoList.size() < pageSize){
+                pageSize = taskDtoList.size();
+            }
+            Pageable pageable = PageRequest.of(pageNo -1, pageSize);
+            int start = (int)pageable.getOffset();
+            int end = Math.min((start + pageable.getPageSize()), taskDtoList.size());
+            List<TaskDto> subList = taskDtoList.subList(start, end);
+            page = new PageImpl<>(subList, pageable, taskDtoList.size());
+        }else{
+            page = Page.empty();
+        }
+
+        return page;
     }
 
 }
