@@ -7,7 +7,7 @@ import com.example.taskmanagement.convert.TaskDtoConvert;
 import com.example.taskmanagement.convert.TaskEntityConvert;
 import com.example.taskmanagement.db.entity.TaskEntity;
 import com.example.taskmanagement.db.repository.TaskRepository;
-import com.example.taskmanagement.convert.TaskConvert;
+import com.example.taskmanagement.convert.StatusConvert;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -29,7 +29,7 @@ public class TestTaskService {
     private TaskRepository taskRepository;
 
     @Mock
-    private TaskConvert taskConvert;
+    private StatusConvert statusConvert;
 
     @Mock
     private TaskDtoConvert taskDtoConvert;

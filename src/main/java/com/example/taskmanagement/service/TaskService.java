@@ -8,7 +8,7 @@ import com.example.taskmanagement.convert.TaskEntityConvert;
 import com.example.taskmanagement.db.entity.TaskEntity;
 import com.example.taskmanagement.db.repository.TaskRepository;
 import com.example.taskmanagement.exceptions.TaskNotFoundException;
-import com.example.taskmanagement.convert.TaskConvert;
+import com.example.taskmanagement.convert.StatusConvert;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -26,13 +26,13 @@ public class TaskService {
 
 
     private final TaskRepository taskRepository;
-    private final TaskConvert taskConvert;
+    private final StatusConvert statusConvert;
     private final TaskDtoConvert taskDtoConvert;
     private final TaskEntityConvert taskEntityConvert;
 
-    public TaskService(final TaskRepository taskRepository, final TaskConvert taskConvert, final TaskDtoConvert taskDtoConvert, final TaskEntityConvert taskEntityConvert){
+    public TaskService(final TaskRepository taskRepository, final StatusConvert statusConvert, final TaskDtoConvert taskDtoConvert, final TaskEntityConvert taskEntityConvert){
         this.taskRepository = taskRepository;
-        this.taskConvert = taskConvert;
+        this.statusConvert = statusConvert;
         this.taskDtoConvert = taskDtoConvert;
         this.taskEntityConvert = taskEntityConvert;
     }
@@ -111,7 +111,7 @@ public class TaskService {
     }
 
     public List<TaskDto> getTaskListByStatus(String strStatus){
-        Status status = taskConvert.convertStatus(strStatus);
+        Status status = statusConvert.convertStatus(strStatus);
         if(status == null){
                 return getTaskList();
         }
