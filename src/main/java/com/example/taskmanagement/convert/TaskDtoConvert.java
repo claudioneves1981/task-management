@@ -15,6 +15,7 @@ import java.util.Date;
 import java.util.List;
 
 @Data
+@Component
 public class TaskDtoConvert {
 
     private TaskDto taskDto;

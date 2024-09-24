@@ -26,7 +26,6 @@ public class TaskService {
 
 
     private final TaskRepository taskRepository;
-
     private final TaskConvert taskConvert;
     private final TaskDtoConvert taskDtoConvert;
     private final TaskEntityConvert taskEntityConvert;
