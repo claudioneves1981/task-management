@@ -3,6 +3,8 @@ package com.example.taskmanagement.service;
 import com.example.taskmanagement.api.Priority;
 import com.example.taskmanagement.api.Status;
 import com.example.taskmanagement.api.TaskDto;
+import com.example.taskmanagement.convert.TaskDtoConvert;
+import com.example.taskmanagement.convert.TaskEntityConvert;
 import com.example.taskmanagement.db.entity.TaskEntity;
 import com.example.taskmanagement.db.repository.TaskRepository;
 import com.example.taskmanagement.convert.TaskConvert;
@@ -29,6 +31,12 @@ public class TestTaskService {
     @Mock
     private TaskConvert taskConvert;
 
+    @Mock
+    private TaskDtoConvert taskDtoConvert;
+
+    @Mock
+    private TaskEntityConvert taskEntityConvert;
+
     @InjectMocks
     private TaskService taskService;
 
@@ -41,10 +49,10 @@ public class TestTaskService {
         final TaskDto taskDto = new TaskDto();
         final TaskEntity taskEntity = new TaskEntity();
 
-        when(taskConvert.convertTaskDtoToTaskEntity(taskDto)).thenReturn(taskEntity);
+        when(taskEntityConvert.convertTaskDtoToTaskEntity(taskDto)).thenReturn(taskEntity);
         taskService.saveTask(taskDto);
 
-        verify(taskConvert, times(1)).convertTaskDtoToTaskEntity(taskDto);
+        verify(taskEntityConvert, times(1)).convertTaskDtoToTaskEntity(taskDto);
         verify(taskRepository, times(1)).save(taskEntity);
 
     }
@@ -57,14 +65,14 @@ public class TestTaskService {
 
         when(taskRepository.findById(id)).thenReturn(Optional.of(taskEntity));
         TaskDto taskDto = new TaskDto();
-        when(taskConvert.convertTaskEntityToTaskDto(taskEntity)).thenReturn(taskDto);
+        when(taskDtoConvert.convertTaskEntityToTaskDto(taskEntity)).thenReturn(taskDto);
         TaskDto taskDtoResult = taskService.getTaskById(id);
 
         assertNotNull(taskDtoResult);
         assertEquals(taskDto, taskDtoResult);
 
         verify(taskRepository, times(1)).findById(id);
-        verify(taskConvert, times(1)).convertTaskEntityToTaskDto(taskEntity);
+        verify(taskDtoConvert, times(1)).convertTaskEntityToTaskDto(taskEntity);
 
     }
 
@@ -109,14 +117,14 @@ public class TestTaskService {
         TaskDto taskDto = new TaskDto();
         TaskEntity taskEntity = new TaskEntity();
 
-        when(taskConvert.convertTaskEntityToTaskDto(taskEntity)).thenReturn(taskDto);
+        when(taskDtoConvert.convertTaskEntityToTaskDto(taskEntity)).thenReturn(taskDto);
 
         List<TaskDto> taskDtoList = taskService.getTaskList();
 
         assertNotNull(taskDtoList);
         assertEquals(3,taskDtoList.size());
         verify(taskRepository, times(1)).findAllByOrderByCreatedOnDesc();
-        verify(taskConvert, times(3)).convertTaskEntityToTaskDto((TaskEntity) any());
+        verify(taskDtoConvert, times(3)).convertTaskEntityToTaskDto((TaskEntity) any());
     }
 
 }
