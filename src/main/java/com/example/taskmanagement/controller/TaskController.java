@@ -124,8 +124,6 @@ public class TaskController {
         mv.addObject("totalPages", page.getTotalPages());
         mv.addObject("totalItens", page.getTotalElements());
         return mv;
-
-
     }
 
     public ModelAndView modelAndViewAux(ModelAndView mv, TaskDto taskDto, String message){
