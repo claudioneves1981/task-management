@@ -2,7 +2,6 @@ package com.example.taskmanagement.convert;
 
 import com.example.taskmanagement.api.TaskDto;
 import com.example.taskmanagement.db.entity.TaskEntity;
-import lombok.Data;
 import org.springframework.stereotype.Component;
 
 import java.text.ParseException;
@@ -10,15 +9,9 @@ import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.util.Date;
 
-@Data
+
 @Component
 public class TaskEntityConvert {
-
-    private TaskEntity taskEntity;
-
-    public TaskEntityConvert(TaskDto taskDto) {
-        taskEntity = convertTaskDtoToTaskEntity(taskDto);
-    }
 
     public TaskEntity convertTaskDtoToTaskEntity(TaskDto taskDto) {
 

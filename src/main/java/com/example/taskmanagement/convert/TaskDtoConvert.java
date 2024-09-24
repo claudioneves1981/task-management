@@ -14,15 +14,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-@Data
 @Component
 public class TaskDtoConvert {
-
-    private TaskDto taskDto;
-
-    public TaskDtoConvert(TaskEntity taskEntity) {
-        taskDto = convertTaskEntityToTaskDto(taskEntity);
-    }
 
     public TaskDto convertTaskEntityToTaskDto(TaskEntity taskEntity) {
 

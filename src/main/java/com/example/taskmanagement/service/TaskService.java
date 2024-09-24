@@ -30,7 +30,7 @@ public class TaskService {
     private final TaskDtoConvert taskDtoConvert;
     private final TaskEntityConvert taskEntityConvert;
 
-    public TaskService(final TaskRepository taskRepository, final TaskConvert taskConvert, final TaskDtoConvert taskDtoConvert, TaskEntityConvert taskEntityConvert){
+    public TaskService(final TaskRepository taskRepository, final TaskConvert taskConvert, final TaskDtoConvert taskDtoConvert, final TaskEntityConvert taskEntityConvert){
         this.taskRepository = taskRepository;
         this.taskConvert = taskConvert;
         this.taskDtoConvert = taskDtoConvert;
