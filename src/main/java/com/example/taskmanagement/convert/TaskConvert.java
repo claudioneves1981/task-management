@@ -14,7 +14,7 @@ import java.util.Date;
 @Component
 public class TaskConvert {
 
-    public TaskEntity convertTaskDtoToTaskEntity(final TaskDto taskDto){
+  /*  public TaskEntity convertTaskDtoToTaskEntity(final TaskDto taskDto){
 
         TaskEntity taskEntity = new TaskEntity();
         taskEntity.setTitle(taskDto.getTitle());
@@ -72,7 +72,7 @@ public class TaskConvert {
             case High -> "badge badge-danger";
             default -> "badge badge-secondary";
         };
-    }
+    } */
 
     public Status convertStatus(String status){
 

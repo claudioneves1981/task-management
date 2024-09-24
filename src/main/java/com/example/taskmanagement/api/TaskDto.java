@@ -1,6 +1,8 @@
 package com.example.taskmanagement.api;
 
 import jakarta.validation.constraints.NotEmpty;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -8,7 +10,9 @@ import java.time.Instant;
 import java.util.UUID;
 
 @NoArgsConstructor
+@AllArgsConstructor
 @Data
+@Builder
 public class TaskDto {
 
     private UUID id;

@@ -3,6 +3,8 @@ package com.example.taskmanagement.db.entity;
 import com.example.taskmanagement.api.Priority;
 import com.example.taskmanagement.api.Status;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
@@ -13,7 +15,9 @@ import java.util.UUID;
 @Entity
 @Table(name = "tb_task", schema = "schema_task")
 @NoArgsConstructor
+@AllArgsConstructor
 @Data
+@Builder
 public class TaskEntity {
 
     @Id

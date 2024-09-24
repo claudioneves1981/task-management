@@ -3,6 +3,8 @@ package com.example.taskmanagement.service;
 import com.example.taskmanagement.api.Priority;
 import com.example.taskmanagement.api.Status;
 import com.example.taskmanagement.api.TaskDto;
+import com.example.taskmanagement.convert.TaskDtoConvert;
+import com.example.taskmanagement.convert.TaskEntityConvert;
 import com.example.taskmanagement.db.entity.TaskEntity;
 import com.example.taskmanagement.db.repository.TaskRepository;
 import com.example.taskmanagement.exceptions.TaskNotFoundException;
@@ -26,10 +28,14 @@ public class TaskService {
     private final TaskRepository taskRepository;
 
     private final TaskConvert taskConvert;
+    private final TaskDtoConvert taskDtoConvert;
+    private final TaskEntityConvert taskEntityConvert;
 
-    public TaskService(final TaskRepository taskRepository, final TaskConvert taskConvert){
+    public TaskService(final TaskRepository taskRepository, final TaskConvert taskConvert, final TaskDtoConvert taskDtoConvert, TaskEntityConvert taskEntityConvert){
         this.taskRepository = taskRepository;
         this.taskConvert = taskConvert;
+        this.taskDtoConvert = taskDtoConvert;
+        this.taskEntityConvert = taskEntityConvert;
     }
 
     /* @PostConstruct
@@ -49,7 +55,7 @@ public class TaskService {
 
     public void saveTask(final TaskDto taskDto){
         try {
-            final TaskEntity taskEntity = taskConvert.convertTaskDtoToTaskEntity(taskDto);
+            final TaskEntity taskEntity = taskEntityConvert.convertTaskDtoToTaskEntity(taskDto);
             taskRepository.save(taskEntity);
         } catch(RuntimeException re){
             throw re;
@@ -59,7 +65,7 @@ public class TaskService {
     public TaskDto getTaskById(final UUID id){
         final Optional<TaskEntity> optionalTaskEntity = taskRepository.findById(id);
         if(optionalTaskEntity.isPresent()){
-            return taskConvert.convertTaskEntityToTaskDto(optionalTaskEntity.get());
+            return taskDtoConvert.convertTaskEntityToTaskDto(optionalTaskEntity.get());
         }else{
             throw new TaskNotFoundException("Task with id "+ id +" not found");
         }
@@ -77,7 +83,7 @@ public class TaskService {
                 TaskEntity taskEntity = optionalTaskEntity.get();
                 taskEntity.setDescription(taskDto.getDescription());
                 taskEntity.setTitle(taskDto.getTitle());
-                taskEntity.setExpiredOn(taskConvert.convertStringToInstant(taskDto.getExpireOn()));
+                taskEntity.setExpiredOn(taskEntityConvert.convertStringToInstant(taskDto.getExpireOn()));
                 taskEntity.setStatus(taskDto.getStatus());
                 taskEntity.setPriority(taskDto.getPriority());
                 taskRepository.save(taskEntity);
@@ -93,7 +99,7 @@ public class TaskService {
     public List<TaskDto> getTaskList(){
         return taskRepository.findAllByOrderByCreatedOnDesc()
                 .stream()
-                .map(taskConvert::convertTaskEntityToTaskDto)
+                .map(taskDtoConvert::convertTaskEntityToTaskDto)
                 .collect(Collectors.toList());
     }
 
@@ -113,7 +119,7 @@ public class TaskService {
 
         List<TaskEntity> taskEntityList = taskRepository.findAllByStatusOrderByCreatedOnDesc(status);
         return taskEntityList.stream()
-                .map(taskConvert::convertTaskEntityToTaskDto)
+                .map(taskDtoConvert::convertTaskEntityToTaskDto)
                 .collect(Collectors.toList());
     }
 
