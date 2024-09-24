@@ -117,10 +117,10 @@ public class TaskController {
 
     public ModelAndView modelAndViewListAux(int selectedPage, ModelAndView mv){
 
-        Page<TaskDto> page = taskService.getTaskListPaginated(SELECTED_PAGE, PAGE_SIZE, globalStatus);
+        Page<TaskDto> page = taskService.getTaskListPaginated(selectedPage, PAGE_SIZE, globalStatus);
         List<TaskDto> taskDtoList = page.getContent();
         mv.addObject("taskDtoList", taskDtoList);
-        mv.addObject("currentPage", SELECTED_PAGE);
+        mv.addObject("currentPage", selectedPage);
         mv.addObject("totalPages", page.getTotalPages());
         mv.addObject("totalItens", page.getTotalElements());
         return mv;
