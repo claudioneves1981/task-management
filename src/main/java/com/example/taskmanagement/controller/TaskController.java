@@ -40,12 +40,6 @@ public class TaskController {
             SELECTED_PAGE = PAGE_NO;
         }
         ModelAndView mvaux = modelAndViewListAux(SELECTED_PAGE, mv);
-        /* Page<TaskDto> page = taskService.getTaskListPaginated(SELECTED_PAGE, PAGE_SIZE, globalStatus);
-        List<TaskDto> taskDtoList = page.getContent();
-        mv.addObject("taskDtoList", taskDtoList);
-        mv.addObject("currentPage", SELECTED_PAGE);
-        mv.addObject("totalPages", page.getTotalPages());
-        mv.addObject("totalItens", page.getTotalElements());*/
         mvaux.addObject("alertMessage", alertMessage);
         SELECTED_PAGE = null;
         return mvaux;
@@ -56,10 +50,6 @@ public class TaskController {
     public ModelAndView pageNewTask(){
         ModelAndView mv = new ModelAndView("new-task");
         String message = "";
-        /*mv.addObject("taskDto", new TaskDto());
-        mv.addObject("priorities",taskService.getPriorities());
-        mv.addObject("statusList",taskService.getStatus());
-        mv.addObject("alertMessage", "");*/
         return modelAndViewAux(mv, new TaskDto(), message);
     }
 
@@ -74,10 +64,6 @@ public class TaskController {
 
         if(bindResult.hasErrors()){
             ModelAndView mv = new ModelAndView("new-task");
-            /* mv.addObject("taskDto", taskDto);
-            mv.addObject("priorities",taskService.getPriorities());
-            mv.addObject("statusList",taskService.getStatus());
-            mv.addObject("alertMessage", "Error, please fill the form correctly");*/
             return modelAndViewAux(mv, taskDto, message);
         }
 
@@ -103,10 +89,6 @@ public class TaskController {
     public ModelAndView editTaskRedirect(Model model, @ModelAttribute("taskDto") TaskDto taskDto){
         ModelAndView mv = new ModelAndView("new-task");
         String message = "";
-        /* mv.addObject("taskDto", taskDto);
-        mv.addObject("priorities",taskService.getPriorities());
-        mv.addObject("statusList",taskService.getStatus());
-        mv.addObject("alertMessage", "");*/
         return modelAndViewAux(mv, taskDto, message);
     }
 
@@ -114,13 +96,6 @@ public class TaskController {
     public ModelAndView deleteTask(@PathVariable UUID id){
         taskService.deleteTask(id);
         ModelAndView mv = new ModelAndView("components/task-card");
-        /*Page<TaskDto> page = taskService.getTaskListPaginated(SELECTED_PAGE != null ? SELECTED_PAGE : 1, PAGE_SIZE, globalStatus);
-        List<TaskDto> taskDtoList = page.getContent();
-        mv.addObject("taskDtoList", taskDtoList);
-        mv.addObject("currentPage", SELECTED_PAGE != null ? SELECTED_PAGE : 1);
-        mv.addObject("totalPages", page.getTotalPages());
-        mv.addObject("totalItens", page.getTotalElements());*/
-       // mv.addObject("taskDtoList", taskDtoList);
         return modelAndViewListAux(SELECTED_PAGE != null ? SELECTED_PAGE : 1, mv);
     }
 
@@ -136,12 +111,6 @@ public class TaskController {
 
         ModelAndView mv = new ModelAndView("components/task-card");
         SELECTED_PAGE = pageNo;
-        /* Page<TaskDto> page = taskService.getTaskListPaginated(pageNo,PAGE_SIZE, globalStatus);
-        List<TaskDto> taskDtoList = page.getContent();
-        mv.addObject("taskDtoList", taskDtoList);
-        mv.addObject("currentPage", pageNo);
-        mv.addObject("totalPages", page.getTotalPages());
-        mv.addObject("totalItens", page.getTotalElements());*/
         return modelAndViewListAux(pageNo, mv);
 
     }
@@ -166,10 +135,5 @@ public class TaskController {
         mv.addObject("alertMessage", message);
         return mv;
     }
-
-
-
-
-
 
 }
